@@ -7,6 +7,6 @@ steps:
           build:
             file: Dockerfile
             context: .
-          image: docker-buildkite
+          image: nginx:latest
           tags:
             - latest
