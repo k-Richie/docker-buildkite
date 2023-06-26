@@ -1,0 +1,4 @@
+name: "Docker Example"
+steps:
+  - command: "buildkite-agent pipeline upload"
+    label: ":pipeline:"
