@@ -1,0 +1,12 @@
+steps:
+  - label: ":docker: Build Docker image"
+    command:
+      - "docker build -t Buildkite ."
+    plugins:
+      - docker#v3.7.0:
+          build:
+            file: Dockerfile
+            context: .
+          image: Buildkite
+          tags:
+            - latest
