@@ -1,12 +1,4 @@
 steps:
-  - label: ":docker: Build Docker imge"
-    command:
-      - "docker build -t docker-buildkite ."
-    plugins:
-      - docker#v3.7.0:
-          build:
-            file: Dockerfile
-            context: .
-          image: nginx:latest
-          tags:
-            - latest
+  - label: ":docker: Build NGINX image"
+    command: "docker build -t my-nginx-image ."
+
