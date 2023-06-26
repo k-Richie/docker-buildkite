@@ -1,4 +1,4 @@
 steps:
   - label: ":docker: Build NGINX image"
-    command: "docker build -t my-nginx-image ."
+    command: "docker build -t my-image ."
 
