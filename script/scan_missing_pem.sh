@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_PATH="/path/to/repository"
+REPO_PATH="/home/rachana/buildkite/docker-buildkite"
 
 check_missing_pem() {
   file="$1"
