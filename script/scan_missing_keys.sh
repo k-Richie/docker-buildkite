@@ -12,7 +12,7 @@ check_missing_keys() {
   
   return 0
 }
-
+#Function to scan repository
 scan_repository() {
   while IFS= read -r -d '' file; do
     check_missing_keys "$file"
