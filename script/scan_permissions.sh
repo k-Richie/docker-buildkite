@@ -18,10 +18,21 @@ check_file_permission() {
   return 0
 }
 
+
 scan_repository() {
+  local has_bad_permissions=false
+
   while IFS= read -r -d '' file; do
-    check_file_permission "$file"
+    if ! check_file_permission "$file"; then
+      has_bad_permissions=true
+    fi
   done < <(find "$REPO_PATH" -type f -print0)
+
+  if [[ "$has_bad_permissions" = true ]]; then
+    return 1
+  else
+    return 0
+  fi
 }
 
 scan_repository
