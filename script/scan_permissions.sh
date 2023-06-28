@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_PATH="/home/usr/buildkite/docker-buildkite/script"
+REPO_PATH="/home/user/buildkite/docker-buildkite/script"
 
 BAD_PERMISSIONS=("777" "666")
 
