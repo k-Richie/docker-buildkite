@@ -25,8 +25,8 @@ scan_repository() {
 }
 
 scan_repository
-exit_status=$?
 
+exit_status=$?
 if [[ $exit_status -eq 0 ]]; then
   echo "No files with bad permissions found."
 else
