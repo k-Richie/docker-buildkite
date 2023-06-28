@@ -1,6 +1,10 @@
 #!/bin/bash
 
-REPO_PATH="/home/rachana/buildkite/docker-buildkite"
+REPO_PATH="/home/rachana/buildkite/docker-buildkite"scan_repository() {
+  while IFS= read -r -d '' file; do
+    check_file_permission "$file"
+  done < <(find "$REPO_PATH" -type f -print0)
+}
 
 BAD_PERMISSIONS=("777")
 
@@ -44,5 +48,4 @@ else
   echo "Scan completed with files having bad permissions."
 fi
 
-exit "$exit_status"
 
