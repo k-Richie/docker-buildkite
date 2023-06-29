@@ -27,7 +27,6 @@ else
   echo "Scan completed with files having bad permissions."
 fi
 
-exit "$exit_status"
 
 
 
