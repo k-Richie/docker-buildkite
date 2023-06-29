@@ -15,6 +15,7 @@ check_pem_files() {
 }
 
 check_pem_files
+echo "Exit status: $?"
 
 
 
