@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_PATH="/path/to/repository"
+REPO_PATH="/home/rachana/buildkite/docker-buildkite"
 
 check_pem_files() {
   while IFS= read -r -d '' file; do
