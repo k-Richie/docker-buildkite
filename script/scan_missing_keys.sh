@@ -26,5 +26,7 @@ scan_repository() {
   done < <(find "$REPO_PATH" -type f -print0)
 }
 
+scan_repository
+
 
 
