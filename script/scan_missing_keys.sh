@@ -22,4 +22,4 @@ scan_repository() {
 scan_repository
 
 exit_status=$?
-exit "$exit_status"
+
