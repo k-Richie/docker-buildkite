@@ -15,6 +15,13 @@ check_file() {
     fi
   fi
 }
+scan_repository() {
+  while IFS= read -r -d '' file; do
+    check_file "$file"
+  done < <(find "$REPO_PATH" -type f -print0)
+}
+
+scan_repository
 
 
 
