@@ -2,26 +2,20 @@
 
 REPO_PATH="/home/rachana/buildkite/docker-buildkite"
 
-check_file() {
-  local file="$1"
+echo "Searching for files containing Access_key..."
 
-  # Check if file contains "access_key"
-  if grep -q "access_key" "$file"; then
-    # Check if access key syntax is correct
-    if grep -qE 'access_key\s*=\s*".+"' "$file"; then
-      echo "File contains access_key with correct syntax: $file"
-    else
-      echo "File contains access_key with incorrect syntax: $file"
+for file in "$REPO_PATH"/*; do
+  if [[ -f "$file" ]]; then
+    if grep -q "Access_key" "$file"; then
+      if grep -qE '^\s*Access_key\s*=' "$file"; then
+        echo "File contains Access_key with incorrect indentation: $file"
+      else
+        echo "File contains Access_key with correct indentation: $file"
+      fi
     fi
   fi
-}
-scan_repository() {
-  while IFS= read -r -d '' file; do
-    check_file "$file"
-  done < <(find "$REPO_PATH" -type f -print0)
-}
+done
 
-scan_repository
 
 
 
