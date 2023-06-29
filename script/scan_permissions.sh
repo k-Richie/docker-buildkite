@@ -1,32 +1,13 @@
 #!/bin/bash
 
 REPO_PATH="/home/rachana/buildkite/docker-buildkite"
-
-BAD_PERMISSIONS=("777")
-
-check_file_permission() {
-  file="$1"
-  permission="$(stat -c "%a" "$file")"
-
-  for bad_perm in "${BAD_PERMISSIONS[@]}"; do
-    if [[ "$permission" == "$bad_perm" ]]; then
-      echo "Bad permission found: $file"
-      return 1
-    fi
-  done
-
-  return 0
-}
-
+BAD_PERMISSIONS=("777" "666")
 
 scan_repository() {
   local has_bad_permissions=false
 
-  while IFS= read -r -d '' file; do
-    if ! check_file_permission "$file"; then
-      has_bad_permissions=true
-    fi
-  done < <(find "$REPO_PATH" -type f -print0)
+  find "$REPO_PATH" -type f -perm "${BAD_PERMISSIONS[*]}" -print -execdir echo "Bad permission found: {}" \; \
+    && has_bad_permissions=true
 
   if [[ "$has_bad_permissions" = true ]]; then
     return 1
@@ -43,4 +24,7 @@ if [[ $exit_status -eq 0 ]]; then
 else
   echo "Scan completed with files having bad permissions."
 fi
+
+exit "$exit_status"
+
 
