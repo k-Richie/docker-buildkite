@@ -3,7 +3,7 @@ steps:
     command: |
       #!/bin/bash
 
-      REPO_PATH="/path/to/your/repo"
+      REPO_PATH="/home/rachana/buildkite/docker-buildkite"
 
       check_file() {
         local file="$1"
