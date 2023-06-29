@@ -1,30 +1,35 @@
-check_file() {
-  local file="$1"
-  local has_issue=false
+#!/bin/bash
 
-  # Check if file is empty
-  if [[ ! -s "$file" ]]; then
-    echo "File is empty: $file"
-    has_issue=true
-  fi
+REPO_PATH="/home/rachana/buildkite/docker-buildkite"
 
-  # Check for missing access key and secret key
-  if ! grep -qE "access_key\s*=\s*" "$file" || ! grep -qE "secret_key\s*=\s*" "$file"; then
-    echo "Missing access key or secret key: $file"
-    has_issue=true
+check_missing_keys() {
+  file="$1"
+
+  if ! grep -qE "access_key|secret_key" "$file"; then
+    echo "Missing access key or secret key in file: $file"
+    return 1
   fi
 
   # Check for incorrect indentation
-  if grep -qE "^\s*access_key\s*=\s*" "$file" || grep -qE "^\s*secret_key\s*=\s*" "$file"; then
-    echo "Incorrect indentation: $file"
-    has_issue=true
+  if grep -qE "^\s*(access_key|secret_key)" "$file"; then
+    echo "Incorrect indentation in file: $file"
+    return 1
   fi
 
-  if [[ "$has_issue" = true ]]; then
-    return 1
-  else
-    return 0
-  fi
+  return 0
 }
+
+# Function to scan repository
+scan_repository() {
+  while IFS= read -r -d '' file; do
+    check_missing_keys "$file"
+  done < <(find "$REPO_PATH" -type f -print0)
+}
+
+scan_repository
+
+exit_status=$?
+exit "$exit_status"
+
 
 
