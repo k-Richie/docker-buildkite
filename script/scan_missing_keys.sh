@@ -25,7 +25,7 @@ check_missing_keys() {
 # }
 
 # scan_repository
-# exit_status=$?
+exit_status=$?
 
 
 
