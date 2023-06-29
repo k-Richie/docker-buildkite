@@ -10,7 +10,6 @@ check_missing_keys() {
     return 1
   fi
 
-  # Check for incorrect indentation
   if grep -qE "^\s*(access_key|secret_key)" "$file"; then
     echo "Incorrect indentation in file: $file"
     return 1
@@ -19,7 +18,6 @@ check_missing_keys() {
   return 0
 }
 
-# Function to scan repository
 scan_repository() {
   while IFS= read -r -d '' file; do
     check_missing_keys "$file"
@@ -27,6 +25,7 @@ scan_repository() {
 }
 
 scan_repository
+exit_status=$?
 
 
 
