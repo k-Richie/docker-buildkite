@@ -1,9 +1,9 @@
 steps:
-  - label: "Scan File for Missing Access Key and Secret Key"
+  - label: "Scan Repository for Access Key and Secret Key"
     command: |
       #!/bin/bash
 
-      FILE_PATH="/path/to/your/file"
+      REPO_PATH="/path/to/your/repo"
 
       check_file() {
         local file="$1"
@@ -29,9 +29,26 @@ steps:
         return 0
       }
 
-      check_file "$FILE_PATH"
-      
+      scan_repository() {
+        local has_issues=false
+
+        while IFS= read -r -d '' file; do
+          if ! check_file "$file"; then
+            has_issues=true
+          fi
+        done < <(find "$REPO_PATH" -type f -name "*.txt" -print0)
+
+        if [[ "$has_issues" = true ]]; then
+          return 1
+        else
+          return 0
+        fi
+      }
+
+      scan_repository
+
       exit_status=$?
       exit "$exit_status"
     agents:
       queue: "your-buildkite-queue"
+
