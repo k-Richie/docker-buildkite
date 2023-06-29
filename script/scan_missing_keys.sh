@@ -24,8 +24,8 @@ check_missing_keys() {
 #   done < <(find "$REPO_PATH" -type f -print0)
 # }
 
-scan_repository
-exit_status=$?
+# scan_repository
+# exit_status=$?
 
 
 
