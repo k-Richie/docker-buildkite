@@ -6,8 +6,10 @@ BAD_PERMISSIONS=("777" "666")
 scan_repository() {
   local has_bad_permissions=false
 
-  find "$REPO_PATH" -type f -perm "${BAD_PERMISSIONS[*]}" -print -execdir echo "Bad permission found: {}" \; \
-    && has_bad_permissions=true
+  for permission in "${BAD_PERMISSIONS[@]}"; do
+    find "$REPO_PATH" -type f -perm "$permission" -execdir echo "Bad permission found: {}" \; \
+      && has_bad_permissions=true
+  done
 
   if [[ "$has_bad_permissions" = true ]]; then
     return 1
@@ -26,5 +28,6 @@ else
 fi
 
 exit "$exit_status"
+
 
 
