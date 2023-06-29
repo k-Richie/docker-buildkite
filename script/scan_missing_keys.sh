@@ -2,12 +2,19 @@
 
 REPO_PATH="/home/rachana/buildkite/docker-buildkite"
 
-#searching for if any file contains Acess_Key
-echo "searching if any files contain acess_key"
-for file in *
-do
-   echo `grep -il "access_key" $file`
-done
+check_file() {
+  local file="$1"
+
+  # Check if file contains "access_key"
+  if grep -q "access_key" "$file"; then
+    # Check if access key syntax is correct
+    if grep -qE 'access_key\s*=\s*".+"' "$file"; then
+      echo "File contains access_key with correct syntax: $file"
+    else
+      echo "File contains access_key with incorrect syntax: $file"
+    fi
+  fi
+}
 
 
 
