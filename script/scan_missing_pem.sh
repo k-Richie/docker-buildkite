@@ -1,50 +1,21 @@
 #!/bin/bash
 
-REPO_PATH="/home/rachana/buildkite/docker-buildkite"
+REPO_PATH="/path/to/repository"
 
-check_missing_pem() {
-  local files=("$@")
-  local missing_files=()
-
-  for file in "${files[@]}"; do
-    if [[ ! -f "$file" ]]; then
-      missing_files+=("$file")
-    fi
-  done
-
-  echo "${missing_files[@]}"
-}
-
-scan_repository() {
-  local pem_files=()
-
+check_pem_files() {
   while IFS= read -r -d '' file; do
     if [[ "$file" == *.pem ]]; then
-      pem_files+=("$file")
+      echo "Found .pem file: $file"
+      return 0
     fi
-  done < <(find "$REPO_PATH" -type f -name "*.pem" -print0)
+  done < <(find "$REPO_PATH" -type f -print0)
 
-  missing_pem_files=$(check_missing_pem "${pem_files[@]}")
-
-  if [[ -z "$missing_pem_files" ]]; then
-    return 0
-  else
-    echo "Missing .pem files:"
-    echo "$missing_pem_files"
-    return 1
-  fi
+  echo "No .pem files found in the repository."
+  return 1
 }
 
-scan_repository
+check_pem_files
 
-exit_status=$?
-if [[ $exit_status -eq 0 ]]; then
-  echo "No missing .pem files found."
-else
-  echo "Scan completed with missing .pem files."
-fi
-
-exit "$exit_status"
 
 
 
