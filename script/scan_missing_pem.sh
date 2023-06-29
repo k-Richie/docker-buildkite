@@ -22,7 +22,7 @@ scan_repository() {
     if [[ "$file" == *.pem ]]; then
       pem_files+=("$file")
     fi
-  done < <(find "$REPO_PATH" -type f -print0)
+  done < <(find "$REPO_PATH" -type f -name "*.pem" -print0)
 
   missing_pem_files=$(check_missing_pem "${pem_files[@]}")
 
@@ -45,6 +45,7 @@ else
 fi
 
 exit "$exit_status"
+
 
 
 
