@@ -1,6 +1,3 @@
-steps:
-  - label: "Scan Repository for Access Key and Secret Key"
-    command: |
       #!/bin/bash
 
       REPO_PATH="/home/rachana/buildkite/docker-buildkite"
