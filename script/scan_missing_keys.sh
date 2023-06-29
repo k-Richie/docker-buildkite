@@ -18,13 +18,13 @@ check_missing_keys() {
   return 0
 }
 
-# scan_repository() {
-#   while IFS= read -r -d '' file; do
-#     check_missing_keys "$file"
-#   done < <(find "$REPO_PATH" -type f -print0)
-# }
+scan_repository() {
+  while IFS= read -r -d '' file; do
+    check_missing_keys "$file"
+  done < <(find "$REPO_PATH" -type f -print0)
+}
 
-# scan_repository
+scan_repository
 exit_status=$?
 
 
