@@ -2,20 +2,36 @@
 
 REPO_PATH="/home/rachana/buildkite/docker-buildkite"
 
+check_missing_pem() {
+  local files=("$@")
+  local missing_files=()
+
+  for file in "${files[@]}"; do
+    if [[ ! -f "$file" ]]; then
+      missing_files+=("$file")
+    fi
+  done
+
+  echo "${missing_files[@]}"
+}
+
 scan_repository() {
-  local has_missing_pem=false
+  local pem_files=()
 
   while IFS= read -r -d '' file; do
-    if [[ "$file" != *.pem ]]; then
-      has_missing_pem=true
-      break
+    if [[ "$file" == *.pem ]]; then
+      pem_files+=("$file")
     fi
-  done < <(find "$REPO_PATH" -type f -name "*.pem" -print0)
+  done < <(find "$REPO_PATH" -type f -print0)
 
-  if [[ "$has_missing_pem" = true ]]; then
-    return 1
-  else
+  missing_pem_files=$(check_missing_pem "${pem_files[@]}")
+
+  if [[ -z "$missing_pem_files" ]]; then
     return 0
+  else
+    echo "Missing .pem files:"
+    echo "$missing_pem_files"
+    return 1
   fi
 }
 
@@ -29,6 +45,7 @@ else
 fi
 
 exit "$exit_status"
+
 
 
 
