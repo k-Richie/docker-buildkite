@@ -26,10 +26,5 @@ scan_repository() {
   done < <(find "$REPO_PATH" -type f -print0)
 }
 
-scan_repository
-
-exit_status=$?
-exit "$exit_status"
-
 
 
